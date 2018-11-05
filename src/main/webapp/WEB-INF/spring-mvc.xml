@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+      ">
+
+
+    <!-- 扫描包中的注解 -->
+    <context:component-scan base-package="com.wy.controller"/>
+
+    <!-- 静态资源的访问 -->
+    <mvc:default-servlet-handler/>
+
+    <!-- 开启注解 -->
+    <mvc:annotation-driven conversion-service="conversionService" validator="springValidator">
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes" value="application/json;charset=UTF-8"/>
+            </bean>
+        </mvc:message-converters>
+        <mvc:argument-resolvers>
+            <bean class="com.wy.extend.RenamingProcessor">
+                <constructor-arg name="annotationNotRequired" value="true" />
+            </bean>
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
+    
+    <!-- 配置静态资源的访问 -->
+    <mvc:resources mapping="/resource/**" location="/assets/image/">
+        <mvc:cache-control max-age="3600" cache-public="true" />
+    </mvc:resources>
+
+
+    <!-- 配置spring mvc validator -->
+    <bean id="springValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" >
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+        <property name="validationMessageSource" ref="messageSource" />
+    </bean>
+
+
+    <!-- 配置viewResolver -->
+    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--<import resource="classpath*:spring-beans.xml" />-->
+
+    <!-- 注册自定义格式转换器 -->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean" >
+        <property name="formatters">
+            <set>
+                <bean class="com.wy.formatter.PhoneNumberFormatAnnotationFormatterFactory" />
+            </set>
+        </property>
+    </bean>
+
+    <!-- 配置WebBindingInitailizer -->
+    <bean id="webBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+        <property name="conversionService" ref="conversionService" />
+    </bean>
+
+    <!-- 注册WebBindingInitialzer到RequestMappingHandlerAdapter -->
+    <bean id="requestMappingHandlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="webBindingInitializer" ref="webBindingInitializer" />
+    </bean>
+
+
+    <!-- 配置MultipartResolver, 用于文件上传 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+          p:defaultEncoding="UTF-8"
+          p:maxUploadSize="5242880"
+          p:uploadTempDir="WEB-INF/tmp" />
+
+
+    <!-- 配置Locale Resolver -->
+    <bean id="localResolver"
+          class="org.springframework.web.servlet.i18n.CookieLocaleResolver"
+          p:cookieName="clientLanguage"
+          p:cookieMaxAge="3600"
+          p:cookiePath="/"
+          p:defaultLocale="zh_CN" />
+
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+    </mvc:interceptors>
+
+
+    <!-- 配置展示返回结果为xml的view -->
+    <bean id="userListXml" class="org.springframework.web.servlet.view.xml.MarshallingView"
+          p:modelKey="testUserList"
+          p:marshaller-ref="xmlMarshaller" />
+
+    <bean id="xmlMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+        <property name="streamDriver">
+            <bean class="com.thoughtworks.xstream.io.xml.StaxDriver" />
+        </property>
+        <property name="annotatedClasses" >
+            <list>
+                <value>com.wy.domain.User</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 配置BeanNameViewResolver视图解析器 -->
+    <bean id="beanNameViewResolver"
+          class="org.springframework.web.servlet.view.BeanNameViewResolver"
+          p:order="20"
+    />
+
+    <!-- 配置返回结果为json的view -->
+    <bean id="userListJson"
+          class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"
+          p:modelKey="testUserList" />
+
+    <!-- 配置返回一版结果的JsonView -->
+    <bean id="commonJsonView"
+          class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+        <!-- extractValueFromSingleKeyModel属性配置spring mvc只会返回ModelKey指定对象对应的Json串，不会包含key本身 -->
+        <property name="extractValueFromSingleKeyModel" value="true" />
+        <property name="modelKeys">
+            <set>
+                <value>data</value>
+            </set>
+        </property>
+    </bean>
+
+    <!-- 配置XmlViewResolver视图解析器 -->
+    <bean id="xmlViewResolver"
+          class="org.springframework.web.servlet.view.XmlViewResolver"
+          p:order="10"
+          p:location="classpath:spring-views.xml" />
+
+
+    <!-- 配置ContentNegotiatingViewResolver视图解析器 -->
+    <!-- spring4先配置ContentNegotiationManagerFactoryBean -->
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="defaultContentType" value="text/html" />
+        <property name="ignoreAcceptHeader" value="false" />
+        <property name="favorPathExtension" value="true" />
+        <property name="favorParameter" value="true" />
+        <property name="parameterName" value="content" />
+        <property name="mediaTypes">
+            <props>
+                <prop key="html">text/html</prop>
+                <prop key="xml">application/xml</prop>
+                <prop key="json">application/json</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver"
+          p:order="0">
+        <property name="contentNegotiationManager">
+           <ref bean="contentNegotiationManager" />
+        </property>
+        <property name="defaultViews">
+            <list>
+                <!--<ref bean="userListJson" />-->
+                <ref bean="commonJsonView" />
+                <ref bean="userListXml" />
+                <bean class="com.wy.view.XlsView" />
+                <bean class="com.wy.view.XlsxView" />
+                <bean class="com.wy.view.XlsxStreamingView" />
+            </list>
+        </property>
+    </bean>
+
+    <import resource="classpath*:spring-aop.xml" />
+
+</beans>
