@@ -1,4 +1,4 @@
-package com.wy.middleware;
+package com.wy.middleware.zookeeper;
 
 /**
  * Description:zookeeper分布式锁测试

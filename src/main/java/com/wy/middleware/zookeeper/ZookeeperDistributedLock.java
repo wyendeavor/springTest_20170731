@@ -1,4 +1,4 @@
-package com.wy.middleware;
+package com.wy.middleware.zookeeper;
 
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
