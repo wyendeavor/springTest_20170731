@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- producer属性配置 -->
+    <bean id="kafkaProducerProperites" class="java.util.HashMap" >
+        <constructor-arg>
+            <map>
+                <entry key="bootstrap.servers" value="${bootstrap.servers}"/>
+                <entry key="group.id" value="${group.id}" />
+                <entry key="retries" value="${retries}" />
+                <entry key="batch.size" value="${batch.size}" />
+                <entry key="linger.ms" value="${linger.ms}" />
+                <entry key="buffer.memory" value="${buffer.memory}" />
+                <entry key="key.serializer" value="${key.serializer}" />
+                <entry key="value.serializer" value="${value.serializer}" />
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <!-- 创建KafkaTemplate需要使用的ProducerFactoryBean -->
+    <bean id="kafkaProducerFactory" class="org.springframework.kafka.core.DefaultKafkaProducerFactory">
+        <constructor-arg>
+            <ref bean="kafkaProducerProperites" />
+        </constructor-arg>
+    </bean>
+
+    <!-- 创建消息生产者的监听器Bean, 该listener一般在应用程序中自己定义 -->
+    <bean id="producerListener" class="com.wy.middleware.kafka.producer.KafkaProducerListener" />
+
+    <!-- 创建KafkaTemplate Bean -->
+    <bean id="kafkaTemplate" class="org.springframework.kafka.core.KafkaTemplate">
+        <constructor-arg ref="kafkaProducerFactory" />
+        <constructor-arg name="autoFlush" value="true" />
+        <property name="defaultTopic" value="${kafka.default.topic}" />
+        <property name="producerListener" ref="producerListener" />
+    </bean>
+
+
+
+</beans>
