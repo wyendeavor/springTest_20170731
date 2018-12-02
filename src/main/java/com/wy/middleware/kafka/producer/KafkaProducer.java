@@ -20,7 +20,7 @@ import java.util.Random;
  * @author wangyuan
  * Date: Created at 2018-11-26 21:58
  */
-@Component
+@Component(value = "kafkaProducer")
 public class KafkaProducer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaProducer.class);
