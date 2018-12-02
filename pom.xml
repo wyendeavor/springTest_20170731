@@ -13,6 +13,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <java.version>1.8</java.version>
+
+        <profiles.dir>src/main/profiles</profiles.dir>
+
         <spring.version>4.3.10.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
         <org.slf4j-version>1.7.12</org.slf4j-version>
@@ -103,6 +106,12 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <!-- Spring Test support -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
         <!-- Servlet api -->
         <dependency>
@@ -317,7 +326,16 @@
     </dependencies>
 
     <build>
-        <finalName>springmvcdemo</finalName>
+        <finalName>wy_spring_mvc_demo</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>${profile.dir}</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -368,6 +386,33 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profile.dir>${profiles.dir}/dev</profile.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <profile.dir>${profiles.dir}/test</profile.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>product</id>
+            <properties>
+                <profile.dir>${profiles.dir}/product</profile.dir>
+            </properties>
+        </profile>
+    </profiles>
 
 
 </project>

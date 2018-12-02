@@ -11,10 +11,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Locale;
@@ -43,7 +40,7 @@ public class UserModelController {
     }
 
     @RequestMapping(value = "/user/add02", method = RequestMethod.POST)
-    public @ResponseBody String addUser02(@Valid User user, BindingResult bindingResult,
+    public @ResponseBody String addUser02(@Valid @RequestBody User user, BindingResult bindingResult,
                                           ModelMap map) {
         logger.info("test messageSource:" + messageSource.getMessage("Pattern.user.birthday", new String[]{}, Locale.CHINA));
         if (bindingResult.hasErrors()) {

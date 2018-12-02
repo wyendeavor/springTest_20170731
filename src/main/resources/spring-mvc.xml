@@ -83,7 +83,7 @@
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
           p:defaultEncoding="UTF-8"
           p:maxUploadSize="5242880"
-          p:uploadTempDir="WEB-INF/tmp" />
+          p:uploadTempDir="/WEB-INF/tmp" />
 
 
     <!-- 配置Locale Resolver -->

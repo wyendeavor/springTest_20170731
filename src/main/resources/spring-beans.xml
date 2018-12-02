@@ -25,7 +25,7 @@
     </bean>
 
     <!-- 配置上下文属性 -->
-    <context:property-placeholder location="classpath*:properties/*.properties"/>
+    <context:property-placeholder location="classpath*:*.properties"/>
 
     <import resource="spring-db.xml"/>
     <!--<import resource="spring-dubbo.xml" />-->
