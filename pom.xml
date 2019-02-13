@@ -323,6 +323,24 @@
             <version>1.0.3.RELEASE</version>
         </dependency>
 
+        <!-- apache httpclient tools jar -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4-alpha1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.4-alpha1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.4-alpha1</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

@@ -1,4 +1,4 @@
-package com.wy.middleware.zookeeper;
+package com.wy.middleware.zookeeper.distributedlock;
 
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
