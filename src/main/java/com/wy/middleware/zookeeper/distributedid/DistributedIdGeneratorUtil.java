@@ -53,6 +53,11 @@ public class DistributedIdGeneratorUtil {
 
             countDownLatch.await();
 
+            // 设置对zookeeper节点的ACL权限认证信息，当前使用digest schema进行认证
+            // 使用如下授权时，通过客户端对zk node path进行setAcl操作，命令: setAcl /zk_incr_seq_node digest:wy:Cf/qGIOrvqb5qm21ezeOlfIopGo=:cdrwa
+            // 其中密文字符串使用openssl命令生成，具体: echo -n <user>:<password> | openssl dgst -binary -sha1 | openssl base64
+            zookeeper.addAuthInfo("digest", "wy:123456".getBytes(StandardCharsets.UTF_8));
+
             String ephemeralSequentialPath = zookeeper.create(EPHEMERAL_SEQUENTIAL_PATH, "使用临时顺序增长节点获取唯一增长id".getBytes(StandardCharsets.UTF_8),
                     ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
 
