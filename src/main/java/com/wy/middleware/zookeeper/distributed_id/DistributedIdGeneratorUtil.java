@@ -1,6 +1,8 @@
 package com.wy.middleware.zookeeper.distributed_id;
 
 import org.apache.zookeeper.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CountDownLatch;
@@ -12,6 +14,8 @@ import java.util.concurrent.CountDownLatch;
  * Date: Created at 2019-02-13 17:30
  */
 public class DistributedIdGeneratorUtil {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DistributedIdGeneratorUtil.class);
+
     private static CountDownLatch countDownLatch = new CountDownLatch(1);
 
     /**
@@ -61,7 +65,7 @@ public class DistributedIdGeneratorUtil {
             long workerId = identifyId & fiveDigitNum;
             long datacenterId = (identifyId >>> 5);
 
-            System.out.println("workerId:" + workerId + ", datacenterId:" + datacenterId);
+            LOGGER.info("workerId:" + workerId + ", datacenterId:" + datacenterId);
 
             snowflakeIdWorker = new SnowflakeIdWorker(workerId, datacenterId);
         } catch (Exception ex) {
@@ -96,7 +100,7 @@ public class DistributedIdGeneratorUtil {
         @Override
         public void process(WatchedEvent event) {
             if (Event.KeeperState.SyncConnected == event.getState()) {
-                System.out.println("监听到zookeeper事件:" + event.toString());
+                LOGGER.info("监听到zookeeper事件:" + event.toString());
                 countDownLatch.countDown();
             }
         }
@@ -107,8 +111,19 @@ public class DistributedIdGeneratorUtil {
     public static void main(String[] args) {
         initSnowflakeIdInstance();
 
-        for(int i=0; i< 10; i++)
-            System.out.println(getNextSnowflakeId());
+        long startTime = System.currentTimeMillis();
+
+        for(int i=0; i< 1000000; i++) {
+            long distributedId = getNextSnowflakeId();
+            if(i==0 || i==999999) {
+                LOGGER.info("index:{}, id:{}" + distributedId);
+            }
+        }
+
+        long endTime = System.currentTimeMillis();
+
+        LOGGER.info("生产100w的id耗时:{}", endTime - startTime);
+
     }
 
 
