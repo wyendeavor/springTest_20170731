@@ -1,4 +1,4 @@
-package com.wy.middleware.zookeeper.distributed_id;
+package com.wy.middleware.zookeeper.distributedid;
 
 import org.apache.zookeeper.*;
 import org.slf4j.Logger;

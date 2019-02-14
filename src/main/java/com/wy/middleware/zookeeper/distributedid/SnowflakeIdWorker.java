@@ -1,4 +1,4 @@
-package com.wy.middleware.zookeeper.distributed_id;
+package com.wy.middleware.zookeeper.distributedid;
 
 /**
  * Description:Twitter的分布式自增ID算法snowflake
