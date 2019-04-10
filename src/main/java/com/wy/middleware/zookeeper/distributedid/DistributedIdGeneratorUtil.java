@@ -59,7 +59,7 @@ public class DistributedIdGeneratorUtil {
             zookeeper.addAuthInfo("digest", "wy:123456".getBytes(StandardCharsets.UTF_8));
 
             String ephemeralSequentialPath = zookeeper.create(EPHEMERAL_SEQUENTIAL_PATH, "使用临时顺序增长节点获取唯一增长id".getBytes(StandardCharsets.UTF_8),
-                    ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+                    ZooDefs.Ids.CREATOR_ALL_ACL, CreateMode.EPHEMERAL_SEQUENTIAL);
 
             String identifyIdStr = ephemeralSequentialPath.substring(EPHEMERAL_SEQUENTIAL_PATH.length());
 
@@ -118,9 +118,9 @@ public class DistributedIdGeneratorUtil {
 
         long startTime = System.currentTimeMillis();
 
-        for(int i=0; i< 1000000; i++) {
+        for(int i=0; i< 10000; i++) {
             long distributedId = getNextSnowflakeId();
-            if(i==0 || i==999999) {
+            if(i==0 || i==99999) {
                 LOGGER.info("index:{}, id:{}" + distributedId);
             }
         }

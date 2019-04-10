@@ -340,6 +340,14 @@
             <version>4.4-alpha1</version>
         </dependency>
 
+        <!-- 对zookeeper工具的封装Curator -->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+
+
 
     </dependencies>
 

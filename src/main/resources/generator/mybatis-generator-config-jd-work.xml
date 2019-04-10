@@ -46,11 +46,11 @@
             &lt;!&ndash;<generatedKey column="id" sqlStatement="MySql" identity="true" type="post" />&ndash;&gt;
         </table>-->
 
-        <table tableName="cashier_template_basic" mapperName="CashierTemplateBasicMapper"
-               enableSelectByExample="true" enableDeleteByExample="true"
-               enableCountByExample="true" enableUpdateByExample="true"
-               selectByExampleQueryId="false">
-        </table>
+        <!--<table tableName="cashier_template_basic" mapperName="CashierTemplateBasicMapper"-->
+               <!--enableSelectByExample="true" enableDeleteByExample="true"-->
+               <!--enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
 
         <table tableName="cashier_template_pay_method_relation" mapperName="CashierTemplatePayMethodRelationMapper"
                enableSelectByExample="true" enableDeleteByExample="true"

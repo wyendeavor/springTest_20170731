@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wy.dao.jd.CashierTemplatePayMethodRelationMapper">
+  <resultMap id="BaseResultMap" type="com.wy.domain.jd.CashierTemplatePayMethodRelation">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="template_no" jdbcType="VARCHAR" property="templateNo" />
+    <result column="payment_method1" jdbcType="VARCHAR" property="paymentMethod1" />
+    <result column="payment_method2" jdbcType="VARCHAR" property="paymentMethod2" />
+    <result column="payment_method3" jdbcType="VARCHAR" property="paymentMethod3" />
+    <result column="priority" jdbcType="INTEGER" property="priority" />
+    <result column="available_status" jdbcType="TINYINT" property="availableStatus" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, template_no, payment_method1, payment_method2, payment_method3, priority, available_status, 
+    created_date, modified_date
+  </sql>
+  <select id="selectByExample" parameterType="com.wy.domain.jd.CashierTemplatePayMethodRelationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cashier_template_pay_method_relation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cashier_template_pay_method_relation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cashier_template_pay_method_relation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wy.domain.jd.CashierTemplatePayMethodRelationExample">
+    delete from cashier_template_pay_method_relation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wy.domain.jd.CashierTemplatePayMethodRelation">
+    insert into cashier_template_pay_method_relation (id, template_no, payment_method1, 
+      payment_method2, payment_method3, priority, 
+      available_status, created_date, modified_date
+      )
+    values (#{id,jdbcType=BIGINT}, #{templateNo,jdbcType=VARCHAR}, #{paymentMethod1,jdbcType=VARCHAR}, 
+      #{paymentMethod2,jdbcType=VARCHAR}, #{paymentMethod3,jdbcType=VARCHAR}, #{priority,jdbcType=INTEGER}, 
+      #{availableStatus,jdbcType=TINYINT}, #{createdDate,jdbcType=TIMESTAMP}, #{modifiedDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wy.domain.jd.CashierTemplatePayMethodRelation">
+    insert into cashier_template_pay_method_relation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="templateNo != null">
+        template_no,
+      </if>
+      <if test="paymentMethod1 != null">
+        payment_method1,
+      </if>
+      <if test="paymentMethod2 != null">
+        payment_method2,
+      </if>
+      <if test="paymentMethod3 != null">
+        payment_method3,
+      </if>
+      <if test="priority != null">
+        priority,
+      </if>
+      <if test="availableStatus != null">
+        available_status,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="modifiedDate != null">
+        modified_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="templateNo != null">
+        #{templateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod1 != null">
+        #{paymentMethod1,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod2 != null">
+        #{paymentMethod2,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod3 != null">
+        #{paymentMethod3,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null">
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="availableStatus != null">
+        #{availableStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedDate != null">
+        #{modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wy.domain.jd.CashierTemplatePayMethodRelationExample" resultType="java.lang.Long">
+    select count(*) from cashier_template_pay_method_relation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cashier_template_pay_method_relation
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.templateNo != null">
+        template_no = #{record.templateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentMethod1 != null">
+        payment_method1 = #{record.paymentMethod1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentMethod2 != null">
+        payment_method2 = #{record.paymentMethod2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentMethod3 != null">
+        payment_method3 = #{record.paymentMethod3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priority != null">
+        priority = #{record.priority,jdbcType=INTEGER},
+      </if>
+      <if test="record.availableStatus != null">
+        available_status = #{record.availableStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.createdDate != null">
+        created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedDate != null">
+        modified_date = #{record.modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cashier_template_pay_method_relation
+    set id = #{record.id,jdbcType=BIGINT},
+      template_no = #{record.templateNo,jdbcType=VARCHAR},
+      payment_method1 = #{record.paymentMethod1,jdbcType=VARCHAR},
+      payment_method2 = #{record.paymentMethod2,jdbcType=VARCHAR},
+      payment_method3 = #{record.paymentMethod3,jdbcType=VARCHAR},
+      priority = #{record.priority,jdbcType=INTEGER},
+      available_status = #{record.availableStatus,jdbcType=TINYINT},
+      created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      modified_date = #{record.modifiedDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wy.domain.jd.CashierTemplatePayMethodRelation">
+    update cashier_template_pay_method_relation
+    <set>
+      <if test="templateNo != null">
+        template_no = #{templateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod1 != null">
+        payment_method1 = #{paymentMethod1,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod2 != null">
+        payment_method2 = #{paymentMethod2,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod3 != null">
+        payment_method3 = #{paymentMethod3,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null">
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="availableStatus != null">
+        available_status = #{availableStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createdDate != null">
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedDate != null">
+        modified_date = #{modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wy.domain.jd.CashierTemplatePayMethodRelation">
+    update cashier_template_pay_method_relation
+    set template_no = #{templateNo,jdbcType=VARCHAR},
+      payment_method1 = #{paymentMethod1,jdbcType=VARCHAR},
+      payment_method2 = #{paymentMethod2,jdbcType=VARCHAR},
+      payment_method3 = #{paymentMethod3,jdbcType=VARCHAR},
+      priority = #{priority,jdbcType=INTEGER},
+      available_status = #{availableStatus,jdbcType=TINYINT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      modified_date = #{modifiedDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="com.wy.domain.jd.CashierTemplatePayMethodRelation">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="template_no" jdbcType="VARCHAR" property="templateNo" />
+    <result column="payment_method1" jdbcType="VARCHAR" property="paymentMethod1" />
+    <result column="payment_method2" jdbcType="VARCHAR" property="paymentMethod2" />
+    <result column="payment_method3" jdbcType="VARCHAR" property="paymentMethod3" />
+    <result column="priority" jdbcType="INTEGER" property="priority" />
+    <result column="available_status" jdbcType="TINYINT" property="availableStatus" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, template_no, payment_method1, payment_method2, payment_method3, priority, available_status, 
+    created_date, modified_date
+  </sql>
+  <select id="selectByExample" parameterType="com.wy.domain.jd.CashierTemplatePayMethodRelationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cashier_template_pay_method_relation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cashier_template_pay_method_relation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cashier_template_pay_method_relation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wy.domain.jd.CashierTemplatePayMethodRelationExample">
+    delete from cashier_template_pay_method_relation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wy.domain.jd.CashierTemplatePayMethodRelation">
+    insert into cashier_template_pay_method_relation (id, template_no, payment_method1, 
+      payment_method2, payment_method3, priority, 
+      available_status, created_date, modified_date
+      )
+    values (#{id,jdbcType=BIGINT}, #{templateNo,jdbcType=VARCHAR}, #{paymentMethod1,jdbcType=VARCHAR}, 
+      #{paymentMethod2,jdbcType=VARCHAR}, #{paymentMethod3,jdbcType=VARCHAR}, #{priority,jdbcType=INTEGER}, 
+      #{availableStatus,jdbcType=TINYINT}, #{createdDate,jdbcType=TIMESTAMP}, #{modifiedDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wy.domain.jd.CashierTemplatePayMethodRelation">
+    insert into cashier_template_pay_method_relation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="templateNo != null">
+        template_no,
+      </if>
+      <if test="paymentMethod1 != null">
+        payment_method1,
+      </if>
+      <if test="paymentMethod2 != null">
+        payment_method2,
+      </if>
+      <if test="paymentMethod3 != null">
+        payment_method3,
+      </if>
+      <if test="priority != null">
+        priority,
+      </if>
+      <if test="availableStatus != null">
+        available_status,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="modifiedDate != null">
+        modified_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="templateNo != null">
+        #{templateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod1 != null">
+        #{paymentMethod1,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod2 != null">
+        #{paymentMethod2,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod3 != null">
+        #{paymentMethod3,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null">
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="availableStatus != null">
+        #{availableStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedDate != null">
+        #{modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wy.domain.jd.CashierTemplatePayMethodRelationExample" resultType="java.lang.Long">
+    select count(*) from cashier_template_pay_method_relation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cashier_template_pay_method_relation
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.templateNo != null">
+        template_no = #{record.templateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentMethod1 != null">
+        payment_method1 = #{record.paymentMethod1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentMethod2 != null">
+        payment_method2 = #{record.paymentMethod2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentMethod3 != null">
+        payment_method3 = #{record.paymentMethod3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priority != null">
+        priority = #{record.priority,jdbcType=INTEGER},
+      </if>
+      <if test="record.availableStatus != null">
+        available_status = #{record.availableStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.createdDate != null">
+        created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedDate != null">
+        modified_date = #{record.modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cashier_template_pay_method_relation
+    set id = #{record.id,jdbcType=BIGINT},
+      template_no = #{record.templateNo,jdbcType=VARCHAR},
+      payment_method1 = #{record.paymentMethod1,jdbcType=VARCHAR},
+      payment_method2 = #{record.paymentMethod2,jdbcType=VARCHAR},
+      payment_method3 = #{record.paymentMethod3,jdbcType=VARCHAR},
+      priority = #{record.priority,jdbcType=INTEGER},
+      available_status = #{record.availableStatus,jdbcType=TINYINT},
+      created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      modified_date = #{record.modifiedDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wy.domain.jd.CashierTemplatePayMethodRelation">
+    update cashier_template_pay_method_relation
+    <set>
+      <if test="templateNo != null">
+        template_no = #{templateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod1 != null">
+        payment_method1 = #{paymentMethod1,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod2 != null">
+        payment_method2 = #{paymentMethod2,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod3 != null">
+        payment_method3 = #{paymentMethod3,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null">
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="availableStatus != null">
+        available_status = #{availableStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createdDate != null">
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedDate != null">
+        modified_date = #{modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wy.domain.jd.CashierTemplatePayMethodRelation">
+    update cashier_template_pay_method_relation
+    set template_no = #{templateNo,jdbcType=VARCHAR},
+      payment_method1 = #{paymentMethod1,jdbcType=VARCHAR},
+      payment_method2 = #{paymentMethod2,jdbcType=VARCHAR},
+      payment_method3 = #{paymentMethod3,jdbcType=VARCHAR},
+      priority = #{priority,jdbcType=INTEGER},
+      available_status = #{availableStatus,jdbcType=TINYINT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      modified_date = #{modifiedDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
